@@ -45,18 +45,18 @@ func ExpandNodeList(nodeListString string) []string {
 					}
 					tmpListFirst, err := strconv.ParseInt(tmpList[0], 10, 0)
 					if err != nil {
-						panic(err)
+						return []string{}
 					}
 					tmpListLast, err := strconv.ParseInt(tmpList[1], 10, 0)
 					if err != nil {
-						panic(err)
+						return []string{}
 					}
 					rngList := makeRange(int(tmpListFirst), int(tmpListLast))
 					finalList = append(finalList, rngList...)
 				} else {
 					integ, err := strconv.ParseInt(elem, 10, 0)
 					if err != nil {
-						panic(err)
+						return []string{}
 					}
 					finalList = append(finalList, int(integ))
 				}

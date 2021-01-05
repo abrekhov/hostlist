@@ -11,7 +11,7 @@ type testPair struct {
 }
 
 var testPairsNode = []testPair{
-	{"n01p[001-005], ap[1-3]z", []string{"n01p001", "n01p002", "n01p003", "n01p004", "n01p005", "ap1z", "ap2z", "ap3z"}},
+	{"n01p[001-005], ap[1-3]z, dgx[02,04]", []string{"n01p001", "n01p002", "n01p003", "n01p004", "n01p005", "ap1z", "ap2z", "ap3z", "dgx02", "dgx04"}},
 }
 
 var testPairsCPU = []testPair{
@@ -21,13 +21,15 @@ var testPairsCPU = []testPair{
 func TestExpandNodeList(t *testing.T) {
 	for _, pair := range testPairsNode {
 		resultHostlist := ExpandNodeList(pair.input)
+		t.Log("input:", pair.input)
+		t.Log("output:", resultHostlist)
 		if !reflect.DeepEqual(resultHostlist, pair.output) {
 			t.Errorf("%#v not equal to %#v", resultHostlist, pair.output)
 		}
 	}
 }
 
-func TestExpandCpuList(t *testing.T) {
+func TestExpandCPUList(t *testing.T) {
 	for _, pair := range testPairsCPU {
 		resultHostlist := ExpandCpuList(pair.input)
 		t.Log(pair.input)
