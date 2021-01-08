@@ -16,8 +16,9 @@ func makeRange(min, max int) []int {
 	return a
 }
 
-// ExpandNodeList function expands SLURM and other schedulers
-// lists of nodes to array of nodes e.g. n02p[001-105]
+// ExpandNodeList function expands SLURM's and other schedulers
+// lists of nodes to array of nodes
+// e.g. n02p[001-003] -> ["n02p001", "n02p002", "n02p003"]
 func ExpandNodeList(nodeListString string) []string {
 	//https://github.com/LLNL/py-hostlist/blob/master/hostlist/hostlist.py
 	var resultHostlist []string
@@ -87,7 +88,10 @@ func ExpandNodeList(nodeListString string) []string {
 	return resultHostlist
 }
 
-func ExpandCpuList(cpuListString string) []string {
+// ExpandCPUList function expands SLURM's and other schedulers
+// lists of used logical CPUs to array of CPU
+// e.g. 36-38,41 -> ["36", "37", "38", "41"]
+func ExpandCPUList(cpuListString string) []string {
 	var resultHostlist []string
 	cpuSlice := strings.Split(cpuListString, ", ")
 	re := regexp.MustCompile(`((,?[0-9]+-?,?-?){0,})`)
