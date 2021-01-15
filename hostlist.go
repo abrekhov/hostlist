@@ -33,17 +33,11 @@ func ExpandNodeList(nodeListString string) []string {
 			numList := strings.Split(rightBr, ",")
 			var finalList []int
 			leadZeros := 0
-			leadZerosStr := ""
 			for _, elem := range numList {
 				if strings.Count(elem, "-") > 0 {
 					tmpReplaced := strings.Replace(elem, "-", ",", -1)
 					tmpList := strings.Split(tmpReplaced, ",")
-					for _, digit := range tmpList[0] {
-						if string(digit) == "0" {
-							leadZeros++
-							leadZerosStr = leadZerosStr + "0"
-						}
-					}
+					leadZeros = len(tmpList[0])
 					tmpListFirst, err := strconv.ParseInt(tmpList[0], 10, 0)
 					if err != nil {
 						return []string{}
@@ -55,6 +49,7 @@ func ExpandNodeList(nodeListString string) []string {
 					rngList := makeRange(int(tmpListFirst), int(tmpListLast))
 					finalList = append(finalList, rngList...)
 				} else {
+					leadZeros = len(elem)
 					integ, err := strconv.ParseInt(elem, 10, 0)
 					if err != nil {
 						return []string{}
@@ -66,8 +61,8 @@ func ExpandNodeList(nodeListString string) []string {
 			sort.Ints(finalList)
 			var hostlistTmp []string
 			for _, elem := range finalList {
-				if (leadZeros > 0) && (len(fmt.Sprint(elem)) <= len(leadZerosStr)) {
-					hostlistTmp = append(hostlistTmp, fmt.Sprintf("%0*d", leadZeros+1, int(elem)))
+				if leadZeros > 0 {
+					hostlistTmp = append(hostlistTmp, fmt.Sprintf("%0*d", leadZeros, int(elem)))
 				} else {
 					hostlistTmp = append(hostlistTmp, strconv.Itoa(elem))
 				}
